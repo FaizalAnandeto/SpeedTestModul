@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moving Circle</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; 
+        }
+        canvas {
+            border: 1px solid #000;
+            width: 400px;  
+            height: 320px; 
+            background-color: #4caf50; 
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="Canvas" width="400" height="320"></canvas>
+
+<script>
+    const canvas = document.getElementById('Canvas');
+    const ctx = canvas.getContext('2d');
+    let x = 0;
+    const radius = 20;
+
+    function drawCircle() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.arc(x, canvas.height / 2, radius, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff'; 
+        ctx.fill();
+        ctx.closePath();
+        
+        x += 2;
+        if (x > canvas.width + radius) {
+            x = -radius;
+        }
+
+        requestAnimationFrame(drawCircle);
+    }
+
+    drawCircle();
+</script>
+
+</body>
+</html>
