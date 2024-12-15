@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Timer</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            margin: 0;
+        }
+        #timer {
+            font-size: 64px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        @media (max-width: 600px) {
+            #timer {
+                font-size: 48px;
+            }
+            button {
+                font-size: 16px;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="timer">000:00</div>
+<div class="button-container">
+    <button id="startBtn">Start Timer</button>
+    <button id="stopBtn">Stop Timer</button>
+    <button id="resetBtn">Reset Timer</button>
+</div>
+
+<script>
+    let timerInterval, totalCentiseconds = 0;
+
+    function updateTimerDisplay() {
+        const seconds = Math.floor(totalCentiseconds / 100);
+        const centiseconds = totalCentiseconds % 100;
+        document.getElementById('timer').innerText = `${String(seconds).padStart(3, '0')}:${String(centiseconds).padStart(2, '0')}`;
+    }
+
+    document.getElementById('startBtn').addEventListener('click', () => {
+        if (!timerInterval) {
+            timerInterval = setInterval(() => {
+                totalCentiseconds++;
+                if (totalCentiseconds > 5999) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                }
+                updateTimerDisplay();
+            }, 10);
+        }
+    });
+
+    document.getElementById('stopBtn').addEventListener('click', () => {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        totalCentiseconds = 0;
+        updateTimerDisplay();
+    });
+</script>
+
+</body>
+</html>
